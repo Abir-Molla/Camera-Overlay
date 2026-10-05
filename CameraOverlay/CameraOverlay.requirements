@@ -1,0 +1,14 @@
+// Code signing requirements for CameraOverlay.
+//
+// macOS remembers privacy grants (Camera, etc.) against the app's *designated
+// requirement*. With local/ad-hoc signing the default designated requirement
+// is derived from the code hash, which changes on every build, so the system
+// forgets the camera permission and prompts again on each launch.
+//
+// Pinning the designated requirement to the bundle identifier keeps it stable
+// across rebuilds, so the camera grant is remembered.
+//
+// Xcode applies these flags to every signing step in the target, including the
+// bare debug/preview dylibs nested in the bundle. Those have no Info.plist, so
+// the second clause lets them satisfy the requirement too.
+designated => identifier "com.abir.CameraOverlay" or !(info [CFBundleIdentifier] exists)
