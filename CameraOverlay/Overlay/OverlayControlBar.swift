@@ -48,6 +48,7 @@ final class ControlBarView: NSView {
     var onPause: (() -> Void)?
     var onStop: (() -> Void)?
     var onCancel: (() -> Void)?
+    var onHide: (() -> Void)?
 
     private let stack = NSStackView()
     private let fullScreenButton = ControlBarButton(symbol: "arrow.up.left.and.arrow.down.right", tooltip: "Full Screen")
@@ -56,7 +57,9 @@ final class ControlBarView: NSView {
     private let pauseButton = ControlBarButton(symbol: "pause.fill", tooltip: "Pause")
     private let stopButton = ControlBarButton(symbol: "stop.fill", tooltip: "Stop & Save", tint: .systemRed)
     private let cancelButton = ControlBarButton(symbol: "xmark", tooltip: "Cancel")
+    private let hideButton = ControlBarButton(symbol: "eye.slash", tooltip: "Hide Camera (show again from the menu bar)")
     private let separator = NSView()
+    private let trailingSeparator = NSView()
     private let statusDot = NSView()
     private let statusLabel = NSTextField(labelWithString: "")
     private var trackingArea: NSTrackingArea?
@@ -71,13 +74,15 @@ final class ControlBarView: NSView {
         layer?.borderWidth = 1
         layer?.borderColor = NSColor(white: 1, alpha: 0.08).cgColor
 
-        separator.wantsLayer = true
-        separator.layer?.backgroundColor = NSColor(white: 1, alpha: 0.15).cgColor
-        separator.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            separator.widthAnchor.constraint(equalToConstant: 1),
-            separator.heightAnchor.constraint(equalToConstant: 16),
-        ])
+        for line in [separator, trailingSeparator] {
+            line.wantsLayer = true
+            line.layer?.backgroundColor = NSColor(white: 1, alpha: 0.15).cgColor
+            line.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                line.widthAnchor.constraint(equalToConstant: 1),
+                line.heightAnchor.constraint(equalToConstant: 16),
+            ])
+        }
 
         statusDot.wantsLayer = true
         statusDot.layer?.cornerRadius = 4
@@ -116,6 +121,8 @@ final class ControlBarView: NSView {
         stopButton.action = #selector(stopTapped)
         cancelButton.target = self
         cancelButton.action = #selector(cancelTapped)
+        hideButton.target = self
+        hideButton.action = #selector(hideTapped)
 
         update(state: .idle, elapsed: 0, isFullScreen: false)
     }
@@ -133,7 +140,7 @@ final class ControlBarView: NSView {
         let views: [NSView]
         switch state {
         case .idle:
-            views = [fullScreenButton, separator, recordButton, countdownButton]
+            views = [fullScreenButton, separator, recordButton, countdownButton, trailingSeparator, hideButton]
         case .countingDown(let remaining):
             statusLabel.stringValue = "Recording in \(remaining)…"
             views = [statusLabel, cancelButton]
@@ -145,13 +152,13 @@ final class ControlBarView: NSView {
             statusLabel.stringValue = Self.format(elapsed)
             pauseButton.symbol = "pause.fill"
             pauseButton.toolTip = "Pause"
-            views = [fullScreenButton, separator, statusDot, statusLabel, pauseButton, stopButton]
+            views = [fullScreenButton, separator, statusDot, statusLabel, pauseButton, stopButton, trailingSeparator, hideButton]
         case .paused:
             statusDot.layer?.backgroundColor = NSColor.systemGray.cgColor
             statusLabel.stringValue = Self.format(elapsed)
             pauseButton.symbol = "play.fill"
             pauseButton.toolTip = "Resume"
-            views = [fullScreenButton, separator, statusDot, statusLabel, pauseButton, stopButton]
+            views = [fullScreenButton, separator, statusDot, statusLabel, pauseButton, stopButton, trailingSeparator, hideButton]
         case .saving:
             statusLabel.stringValue = "Saving…"
             views = [statusLabel]
@@ -170,7 +177,7 @@ final class ControlBarView: NSView {
         }
         // Text and buttons need a little breathing room from each other.
         // Only views currently in the stack may get custom spacing (NSStackView asserts otherwise).
-        let spacing: [(NSView, CGFloat)] = [(separator, 8), (statusDot, 6), (statusLabel, 8)]
+        let spacing: [(NSView, CGFloat)] = [(separator, 8), (statusDot, 6), (statusLabel, 8), (stopButton, 8), (countdownButton, 8), (trailingSeparator, 8)]
         for (view, value) in spacing where views.contains(view) {
             stack.setCustomSpacing(value, after: view)
         }
@@ -213,6 +220,7 @@ final class ControlBarView: NSView {
     @objc private func pauseTapped() { onPause?() }
     @objc private func stopTapped() { onStop?() }
     @objc private func cancelTapped() { onCancel?() }
+    @objc private func hideTapped() { onHide?() }
 }
 
 /// Icon-only button with a subtle hover highlight.

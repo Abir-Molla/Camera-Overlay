@@ -31,8 +31,13 @@ You'll see this the first time. It is not a virus warning about this app specifi
 **Way 1: System Settings (no Terminal)**
 
 1. In the dialog, click **Done** (not *Move to Trash*).
-2. Open **System Settings → Privacy & Security** and scroll to the **Security** section.
-3. Under "Allow applications from", you'll now see *"CameraOverlay" was blocked to protect your Mac* with an **Open Anyway** button. Click it, then confirm with your password or Touch ID.
+
+   <img src="docs/images/gatekeeper-dialog.png" alt="macOS dialog: CameraOverlay Not Opened. Click Done." width="392">
+
+2. Open **System Settings → Privacy & Security** and scroll down to the **Security** section.
+3. Right under "Allow applications from" you'll now see *"CameraOverlay" was blocked to protect your Mac*. Click **Open Anyway**, then confirm with your password or Touch ID.
+
+   <img src="docs/images/open-anyway.png" alt="System Settings → Privacy & Security → Security, showing the Open Anyway button for CameraOverlay." width="746">
 
 The **Open Anyway** button only appears *after* you've tried to open the app and clicked Done, and it stays for about an hour. If you don't see it, open the app once more and check again.
 
@@ -68,6 +73,7 @@ Hover over the bubble and a small control bar appears underneath:
 | **Countdown** | Same as Record, but gives you a 3, 2, 1 inside the bubble first so you can get ready. |
 | **Pause / Resume** | Pauses the recording. Paused time is cut out of the final video, not frozen in. |
 | **Stop & Save** | Finishes the recording and saves it to `~/Movies/Camera Overlay/`, then shows it in Finder. |
+| **Hide** | Hides the bubble and switches the camera off. Bring it back with **Show Camera** in the menu bar. |
 
 Recordings are `.mov` files at your display's native resolution, 30 fps, H.264, with microphone audio on macOS 15 and later. The control bar itself is never captured.
 
@@ -85,7 +91,7 @@ The bubble is visible to OBS, QuickTime, Zoom, Loom, and any other screen captur
 
 - Click the **camera icon** in the menu bar to show or hide the bubble, open **Settings**, or quit.
 - **Drag** the bubble to move it. **Drag an edge** to resize. **Double-click** to reset the size.
-- **Hover** over the bubble for Full Screen and recording controls.
+- **Hover** over the bubble for Full Screen, recording controls, and a Hide button.
 - **Settings** opens a window with everything: camera device, resolution, frame rate, shape, look, framing, and face tracking. Changes apply live.
 
 ---

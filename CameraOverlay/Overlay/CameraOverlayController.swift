@@ -95,6 +95,7 @@ final class CameraOverlayController: NSObject, NSWindowDelegate {
         bar.onPause = { [weak self] in self?.recording.togglePause() }
         bar.onStop = { [weak self] in self?.recording.stopAndSave() }
         bar.onCancel = { [weak self] in self?.recording.cancelCountdown() }
+        bar.onHide = { [weak self] in self?.hide() }
 
         recording.captureTarget = { [weak self] in
             guard let self, let screen = self.panel.screen ?? NSScreen.main else { return nil }
