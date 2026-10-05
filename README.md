@@ -24,12 +24,27 @@ Requires macOS 13 Ventura or later. Apple Silicon and Intel.
 2. **Drag `Camera Overlay` onto the `Applications` folder** shown next to it. That's the install.
 3. Eject the disk image and open **Camera Overlay** from your Applications folder (or Spotlight).
 
-The first time you open it, macOS may say the app can't be checked for malicious software. That's because this is a free, independently built app and not notarized through Apple's paid developer program. It is safe to open:
+### "Apple could not verify CameraOverlay is free of malware"
 
-- Go to **System Settings → Privacy & Security**, scroll down, and click **Open Anyway**.
-- Or right-click (Control-click) the app in Applications and choose **Open**.
+You'll see this the first time. It is not a virus warning about this app specifically. macOS shows it for every app that isn't notarized through Apple's paid developer program, and this is a free, independently built app. It is safe to open. Pick either way:
 
-You only have to do this once.
+**Way 1: System Settings (no Terminal)**
+
+1. In the dialog, click **Done** (not *Move to Trash*).
+2. Open **System Settings → Privacy & Security** and scroll to the **Security** section.
+3. Under "Allow applications from", you'll now see *"CameraOverlay" was blocked to protect your Mac* with an **Open Anyway** button. Click it, then confirm with your password or Touch ID.
+
+The **Open Anyway** button only appears *after* you've tried to open the app and clicked Done, and it stays for about an hour. If you don't see it, open the app once more and check again.
+
+**Way 2: One line in Terminal**
+
+```sh
+xattr -d com.apple.quarantine /Applications/CameraOverlay.app
+```
+
+This removes the "downloaded from the internet" flag, and the app opens normally from then on.
+
+Either way, you only have to do this once. (On macOS 15 and later, right-clicking the app and choosing Open no longer bypasses this.)
 
 Then allow **Camera** access when asked. If you want to record, you'll also be asked for **Screen Recording** (and **Microphone**, for your voice). After granting Screen Recording, macOS sometimes needs the app to be reopened once.
 
