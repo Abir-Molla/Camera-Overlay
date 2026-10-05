@@ -13,9 +13,11 @@ cd "$(dirname "$0")/.."
 
 PROJECT="CameraOverlay.xcodeproj"
 SCHEME="CameraOverlay"
-DERIVED="build/release-dd"
-STAGING="build/dmg-staging"
+DERIVED="$PWD/build/release-dd"
+STAGING="$PWD/build/dmg-staging"
+MOUNT="$PWD/build/dmg-mount"
 APP="$DERIVED/Build/Products/Release/CameraOverlay.app"
+VOLUME_NAME="Camera Overlay"
 
 echo "▸ Building Release…"
 xcodebuild -project "$PROJECT" -scheme "$SCHEME" -configuration Release \
@@ -28,26 +30,52 @@ echo "▸ Verifying code signature…"
 codesign --verify --strict --deep "$APP"
 
 mkdir -p dist
-rm -rf "$STAGING"
+rm -rf "$STAGING" "$MOUNT"
 mkdir -p "$STAGING"
 cp -R "$APP" "$STAGING/"
 ln -s /Applications "$STAGING/Applications"
 
-DMG="dist/CameraOverlay-$VERSION.dmg"
-ZIP="dist/CameraOverlay-$VERSION.zip"
+DMG="$PWD/dist/CameraOverlay-$VERSION.dmg"
+ZIP="$PWD/dist/CameraOverlay-$VERSION.zip"
+rm -f "$DMG" "$ZIP"
+
+# Preferred: let the system build the image from the folder. This needs access to
+# /Volumes, which some sandboxed shells (e.g. Xcode's assistant) don't have; there it
+# fails fast and we fall back below. (diskutil image create can hang in that case.)
+make_dmg_simple() {
+  hdiutil create -quiet -volname "$VOLUME_NAME" -srcfolder "$STAGING" -ov -format UDZO "$DMG" 2>/dev/null
+}
+
+# Fallback: build the filesystem in user space (no /Volumes needed), then mount it at a
+# local path to strip the Finder metadata makehybrid adds (codesign --strict rejects it).
+make_dmg_fallback() {
+  local hybrid="$PWD/build/hybrid.dmg" rw="$PWD/build/rw.dmg"
+  rm -f "$hybrid" "$rw"
+  mkdir -p "$MOUNT"
+  hdiutil makehybrid -quiet -hfs -hfs-volume-name "$VOLUME_NAME" -o "$hybrid" "$STAGING"
+  hdiutil convert -quiet "$hybrid" -format UDRW -o "$rw"
+  hdiutil attach -quiet -nobrowse -noautoopen -mountpoint "$MOUNT" "$rw"
+  xattr -cr "$MOUNT/CameraOverlay.app"
+  hdiutil detach -quiet "$MOUNT"
+  hdiutil convert -quiet "$rw" -format UDZO -o "$DMG"
+  rm -f "$hybrid" "$rw"
+}
 
 echo "▸ Creating $DMG…"
-rm -f "$DMG"
-if diskutil image create from --help >/dev/null 2>&1; then
-  # macOS 26+ (hdiutil create is deprecated there and can fail).
-  diskutil image create from --format UDZO --volumeName "Camera Overlay" "$STAGING" "$DMG" >/dev/null
-else
-  hdiutil create -quiet -volname "Camera Overlay" -srcfolder "$STAGING" -ov -format UDZO "$DMG"
+if ! make_dmg_simple || [ ! -f "$DMG" ]; then
+  echo "  (system image tools unavailable here, using makehybrid)"
+  make_dmg_fallback
 fi
+
+echo "▸ Verifying app inside the DMG…"
+mkdir -p "$MOUNT"
+hdiutil attach -quiet -nobrowse -readonly -mountpoint "$MOUNT" "$DMG"
+codesign --verify --strict --deep "$MOUNT/CameraOverlay.app"
+hdiutil detach -quiet "$MOUNT"
 
 echo "▸ Creating $ZIP…"
 ditto -c -k --keepParent "$APP" "$ZIP"
 
-rm -rf "$STAGING"
+rm -rf "$STAGING" "$MOUNT"
 echo "✓ Done"
 ls -lh dist

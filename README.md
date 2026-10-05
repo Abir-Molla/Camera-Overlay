@@ -7,9 +7,9 @@ You know the little circle with someone's face in the corner of a screen recordi
 No account. No subscription. No cloud. It lives in your menu bar, weighs under 2 MB, and does one thing well.
 
 <p align="center">
-  <a href="https://github.com/FreelancerAbir/Camera-Overlay/releases/latest/download/CameraOverlay-1.0.dmg"><b>⬇️ Download Camera Overlay 1.0 (.dmg)</b></a>
+  <a href="https://github.com/FreelancerAbir/Camera-Overlay/releases/latest/download/CameraOverlay-1.1.dmg"><b>⬇️ Download Camera Overlay 1.1 (.dmg)</b></a>
   &nbsp;·&nbsp;
-  <a href="https://github.com/FreelancerAbir/Camera-Overlay/releases/latest/download/CameraOverlay-1.0.zip">.zip</a>
+  <a href="https://github.com/FreelancerAbir/Camera-Overlay/releases/latest/download/CameraOverlay-1.1.zip">.zip</a>
   &nbsp;·&nbsp;
   <a href="https://github.com/FreelancerAbir/Camera-Overlay/releases">All releases</a>
 </p>
