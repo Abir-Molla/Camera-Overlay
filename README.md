@@ -7,7 +7,9 @@ You know the little circle with someone's face in the corner of a screen recordi
 No account. No subscription. No cloud. It lives in your menu bar, weighs under 2 MB, and does one thing well.
 
 <p align="center">
-  <a href="https://github.com/FreelancerAbir/Camera-Overlay/releases/latest/download/CameraOverlay-1.1.zip"><b>⬇️ Download Camera Overlay 1.1 (.zip)</b></a>
+  <a href="https://github.com/FreelancerAbir/Camera-Overlay/releases/latest/download/CameraOverlay-1.1.dmg"><b>⬇️ Download Camera Overlay 1.1 (.dmg)</b></a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/FreelancerAbir/Camera-Overlay/releases/latest/download/CameraOverlay-1.1.zip">.zip</a>
   &nbsp;·&nbsp;
   <a href="https://github.com/FreelancerAbir/Camera-Overlay/releases">All releases</a>
 </p>
@@ -18,9 +20,9 @@ Requires macOS 13 Ventura or later. Apple Silicon and Intel.
 
 ## Install in 30 seconds
 
-1. **Download** the `.zip` using the button above. Safari unzips it for you; otherwise double-click it.
-2. **Drag `Camera Overlay` into your `Applications` folder.** That's the install.
-3. Open **Camera Overlay** from Applications (or Spotlight).
+1. **Download** the `.dmg` using the button above and open it.
+2. **Drag `Camera Overlay` onto the `Applications` folder** shown next to it. That's the install.
+3. Eject the disk image and open **Camera Overlay** from your Applications folder (or Spotlight).
 
 ### "Apple could not verify CameraOverlay is free of malware"
 
@@ -110,7 +112,7 @@ cd Camera-Overlay
 open CameraOverlay.xcodeproj
 ```
 
-Press **Run**. To produce the `.zip` (and a `.dmg`) that get attached to a GitHub release:
+Press **Run**. To produce the `.dmg` and `.zip` that get attached to a GitHub release:
 
 ```sh
 Tools/make_release.sh   # writes to dist/
