@@ -37,7 +37,13 @@ DMG="dist/CameraOverlay-$VERSION.dmg"
 ZIP="dist/CameraOverlay-$VERSION.zip"
 
 echo "▸ Creating $DMG…"
-hdiutil create -quiet -volname "Camera Overlay" -srcfolder "$STAGING" -ov -format UDZO "$DMG"
+rm -f "$DMG"
+if diskutil image create from --help >/dev/null 2>&1; then
+  # macOS 26+ (hdiutil create is deprecated there and can fail).
+  diskutil image create from --format UDZO --volumeName "Camera Overlay" "$STAGING" "$DMG" >/dev/null
+else
+  hdiutil create -quiet -volname "Camera Overlay" -srcfolder "$STAGING" -ov -format UDZO "$DMG"
+fi
 
 echo "▸ Creating $ZIP…"
 ditto -c -k --keepParent "$APP" "$ZIP"
