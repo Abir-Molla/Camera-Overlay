@@ -7,11 +7,11 @@ You know the little circle with someone's face in the corner of a screen recordi
 No account. No subscription. No cloud. It lives in your menu bar, weighs under 2 MB, and does one thing well.
 
 <p align="center">
-  <a href="https://github.com/FreelancerAbir/Camera-Overlay/releases/latest/download/CameraOverlay-1.1.dmg"><b>⬇️ Download Camera Overlay 1.1 (.dmg)</b></a>
+  <a href="https://github.com/Abir-Molla/Camera-Overlay/releases/latest/download/CameraOverlay-1.1.dmg"><b>⬇️ Download Camera Overlay 1.1 (.dmg)</b></a>
   &nbsp;·&nbsp;
-  <a href="https://github.com/FreelancerAbir/Camera-Overlay/releases/latest/download/CameraOverlay-1.1.zip">.zip</a>
+  <a href="https://github.com/Abir-Molla/Camera-Overlay/releases/latest/download/CameraOverlay-1.1.zip">.zip</a>
   &nbsp;·&nbsp;
-  <a href="https://github.com/FreelancerAbir/Camera-Overlay/releases">All releases</a>
+  <a href="https://github.com/Abir-Molla/Camera-Overlay/releases">All releases</a>
 </p>
 
 Requires macOS 13 Ventura or later. Apple Silicon and Intel.
@@ -107,7 +107,7 @@ Camera Overlay has no network access at all. It is sandboxed by macOS, and the o
 You'll need Xcode 15 or later.
 
 ```sh
-git clone https://github.com/FreelancerAbir/Camera-Overlay.git
+git clone https://github.com/Abir-Molla/Camera-Overlay.git
 cd Camera-Overlay
 open CameraOverlay.xcodeproj
 ```
