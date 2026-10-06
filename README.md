@@ -16,6 +16,10 @@ No account. No subscription. No cloud. It lives in your menu bar, weighs under 2
 
 Requires macOS 13 Ventura or later. Apple Silicon and Intel.
 
+<p align="center">
+  <img src="docs/images/hero.jpg" alt="Camera Overlay: a round webcam bubble with a teal ring, a REC 00:42 badge, and the hover control bar with Full Screen, Record, Countdown, Pause and Stop buttons." width="640">
+</p>
+
 ---
 
 ## Install in 30 seconds
@@ -81,6 +85,13 @@ While recording, the menu bar icon turns red and the menu gains **Pause Recordin
 
 **Stays out of your way.**
 Menu bar only, no Dock icon. The bubble never steals focus from the app you're working in. Hide it and the camera is fully released: no light, no background CPU. Optional launch at login.
+
+**Every option in one Settings window.**
+Camera device, resolution and frame rate, shape, ring and shadow, zoom and framing, mirror, face tracking. Changes apply to the bubble live.
+
+<p align="center">
+  <img src="docs/images/settings.png" alt="The Settings window: Camera (device, resolution, frame rate), Shape (circle, rounded, rectangle), Look (ring, ring width, ring color, shadow) and Framing (zoom, horizontal and vertical position, mirror)." width="420">
+</p>
 
 **Works with your existing tools.**
 The bubble is visible to OBS, QuickTime, Zoom, Loom, and any other screen capture. Use it with whatever you already record with.
